@@ -7,7 +7,8 @@
 * 基于python的目标检测算法
 * 基于flask的网站建设
 * 基于python的网页爬虫
-<br><center>
+<br><br>
+<center>
 下面放上我的两位领路人美照，欢迎大家多多学习交流。
 <table>
   <tr>
