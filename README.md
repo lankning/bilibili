@@ -7,3 +7,15 @@
 * 基于python的目标检测算法
 * 基于flask的网站建设
 * 基于python的网页爬虫
+<br>
+下面放上我的领路人美照，欢迎大家多多学习交流。
+<table>
+  <tr>
+    <td><img src='http://buzzorange.com/techorange/wp-content/uploads/sites/2/2017/03/012-2.jpg' height='60' width='100'/></td>
+    <td><img src='https://morvanzhou.github.io/static/img/description/my_pic.jpg' height='60' width='100'/></td>
+  </tr>
+  <tr>
+    <td align="center">Master Andrew Ng</td>
+    <td align="center">Movan_Zhou</td>
+  </tr>
+</table>
