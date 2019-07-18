@@ -8,11 +8,11 @@
 * 基于flask的网站建设
 * 基于python的网页爬虫
 <br>
-下面放上我的领路人美照，欢迎大家多多学习交流。
+下面放上我的两位领路人美照，欢迎大家多多学习交流。
 <table>
   <tr>
-    <td><img src='http://buzzorange.com/techorange/wp-content/uploads/sites/2/2017/03/012-2.jpg' height='100' width='140'/></td>
-    <td><img src='https://morvanzhou.github.io/static/img/description/my_pic.jpg' height='100' width='140'/></td>
+    <td><img src='http://buzzorange.com/techorange/wp-content/uploads/sites/2/2017/03/012-2.jpg' height='110' width='140'/></td>
+    <td><img src='https://morvanzhou.github.io/static/img/description/my_pic.jpg' height='110' width='140'/></td>
   </tr>
   <tr>
     <td align="center">Master Andrew Ng</td>
