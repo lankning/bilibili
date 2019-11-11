@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no">
+
+<head>
+    <meta charset="UTF-8">
+    <title>register</title>
+</head>
+
+<center><body>
+<h2>Please register firstly!</h2>
+<form method="post" action="{{ url_for('register') }}">
+name: <input type="text" name="name" placeholder="朱元璋"><br>
+email: <input type="text" name="mail" placeholder="example@company.com"><br>
+password: <input type="password" name="pwd" placeholder="1234567"><br>
+<input type="submit" value="Submit" id="submit">
+</form></body></center>
