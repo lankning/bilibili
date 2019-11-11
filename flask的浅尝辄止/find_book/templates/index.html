@@ -1,0 +1,36 @@
+<html>
+
+<head>
+<meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0, user-scalable=yes">
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<meta name="referrer" content="no-referrer">
+<title>小说下载</title>
+<meta name="description" content="小说资源搜索、全本下载">
+<meta name="keywords" content="小说下载">
+</head>
+
+<center>
+<div class="warning">
+        {% for message in get_flashed_messages() %}
+			<strong>Warning!</strong> {{ message }}
+        {% endfor %}
+    </div>
+</center><br>
+<link rel="shortcut icon" href="http://img.juimg.com/tuku/yulantu/140315/330426-1403151A04950.jpg" type="image/jpg">
+<br/><br/><br/><br/>
+<center><img src="../static/images/logo.png" alt="logo" align="center"/></center>
+<!-- <hr/> -->
+
+<body bgcolor="#E6E6FA"><center>
+		<form action="{{ url_for('index') }}" method="POST">
+		<table>
+			<tr align="center"><td>小说名称: </td><td><input type="text" name="book_name"></td></tr>
+			<tr align="center"><td>作者: </td><td><input type="text" name="writor"></td></tr>
+		</table>
+		<button>提交</button>
+		</form>
+	<!-- <hr/> -->
+	<br><br><br>
+	<small>说明：书名、作者名均为必填。</small>
+</body></center>
+</html>
