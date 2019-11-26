@@ -2,10 +2,10 @@
 >哔哩哔哩视频的程序文档
 
 这是b站up主Cytor的GitHub仓库，欢迎关注我：https://space.bilibili.com/390519714<br>
-我的个人博客（更新比b站勤奋多了）：
-- Github托管站点：https://cytor.github.io/ （推荐。最准确，慢，有评论系统）
-- Coding托管站点：https://cytor.coding.me/ （推荐。准确，快，卡通主题，卡哇伊！）
-- Gitee托管站点： http://cytor.gitee.io/ （不推荐。与GitHub托管共用评论，但是不会自动部署，更新可能不及时）
+我的个人博客（更新比b站勤奋多了）如下，推荐第一个Github托管的，这个是最新最准确的，后面两个仅仅作为备份使用。
+- Github托管站点：https://cytor.github.io/ （最准确，访问略慢，有评论系统）
+- Coding托管站点：https://cytor.coding.me/ （更新慢，访问快，卡通主题，卡哇伊！）
+- Gitee托管站点： http://cytor.gitee.io/ （与GitHub托管共用评论，但是不会自动部署，更新慢）
 ### Introduction:
 按照我的设想，我近期将开始学习或持续学习以下内容，这也会在我的仓库和b站视频上有所体现。
 * 基于tensorflow的神经网络(CNN/RNN/GANS)
