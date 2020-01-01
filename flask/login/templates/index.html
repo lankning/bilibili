@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no">
+
+<head>
+    <meta charset="UTF-8">
+    <title>login</title>
+</head>
+
+<center><body>
+<h2>登录界面!</h2>
+<form method="post" action="{{ url_for('home') }}">
+<table>
+<tr><td align="center">用户名:</td><td><input type="text" name="name"><br></td></tr>
+<tr><td align="center">密码:</td><td><input type="password" name="pwd"><br></td></tr>
+</table>
+<input type="submit" value="提交" id="submit"><br>
+</form>
+<small>没有账号?<a href='/register'>点这里</a></small><br>
+<small>想要吐槽?<a href='/comment'>点这里</a></small>
+</body></center>

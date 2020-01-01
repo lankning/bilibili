@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no">
+
+<head>
+    <meta charset="UTF-8">
+    <title>register</title>
+</head>
+
+<center><body>
+<h2>请先注册!</h2>
+<form method="post" action="{{ url_for('register') }}">
+用户名: <input type="text" name="name" placeholder="用户名"><br>
+邮箱: <input type="text" name="mail" placeholder="example@company.com"><br>
+密码: <input type="password" name="pwd" placeholder="1234567"><br>
+<input type="submit" value="提交" id="submit">
+</form></body></center>

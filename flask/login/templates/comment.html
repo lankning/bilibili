@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no">
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <title>留言板</title>
+</head>
+<body>
+        <center><h1>留言板</h1></center>
+        <center>
+            <form action="{{ url_for('comment') }}" method="POST">
+			<table border="0">
+                <tr><td width="80" align="center">昵 称: </td><td align="center"><input type="text" name="username" placeholder="杜甫"></td></tr>
+                <tr><td width="80" align="center">留言标题: </td><td align="center"><input type="text" name="title" placeholder="春望"></td></tr>
+                <tr><td width="80" align="center">留言内容: </td><td align="center"><input type="text" name="content" placeholder="国破山河在，城春草木深。"></td></tr>
+			</table>	
+            <button>提交留言</button></form>
+        </center>
+    <center>
+        <table border="2">
+            <thead>
+            <tr>
+                <th align="center">标题</th>
+                <th align="center">内容</th>
+                <th align="center">用户</th>
+                <th align="center">留言时间</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for say in says %}
+                <tr>
+                    <td align="center">{{ say['title'] }}</td>
+                    <td align="center">{{ say['content'] }}</td>
+                    <td align="center">{{ say['username'] }}</td>
+                    <td align="center">{{ say['date'] }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </center>
+</body>
+</html>
