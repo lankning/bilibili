@@ -19,8 +19,6 @@ UPLOAD_FOLDER = 'static/vedios'
 app = Flask(__name__)
 app.secret_key = '123456'
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
-#限制最大上传文件为1Gb
-app.config['MAX_CONTENT_LENGTH'] = 1024 * 1024 * 1024
 
 
 # In[3]:
