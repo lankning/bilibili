@@ -8,6 +8,8 @@
 <meta name="description" content="视频资料交流、下载">
 <meta name="keywords" content="视频资料、上传下载">
 <link rel="icon" sizes="any" mask="" href="http://www.printableparadise.com/letter-stencils/printable-letter-k-stencil.png">
+<script src="html5media.min.js"></script>
+<!--html5media是一个开源的网页播放器，让支持HTML5的浏览器依然使用HTML5，不支持HTML5的浏览器使用falsh播放器-->
 </head>
 
 <center>
@@ -23,10 +25,8 @@
 <!-- <hr/> -->
 
 <body bgcolor="#E6E6FA"><center>
-	
-	<video width="960" height="630" controls autoplay>
-    <source src="{{path}}" type="video/mp4">
-	</video>
+
+	<video src="{{path}}" width="960" height="630" controls preload></video> 
 	
 </body></center>
 </html>
