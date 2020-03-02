@@ -1,0 +1,51 @@
+<html>
+
+<head>
+<meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0, user-scalable=yes">
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<meta name="referrer" content="no-referrer">
+<title>Video Home</title>
+<meta name="description" content="视频资料交流、下载">
+<meta name="keywords" content="视频资料、上传下载">
+<link rel="icon" sizes="any" mask="" href="http://www.printableparadise.com/letter-stencils/printable-letter-k-stencil.png">
+</head>
+
+<center>
+<div class="warning">
+        {% for message in get_flashed_messages() %}
+			<strong>Warning!</strong> {{ message }}
+        {% endfor %}
+    </div>
+</center><br>
+<link rel="shortcut icon" href="http://pic15.nipic.com/20110619/6731661_105306862000_2.jpg" type="image/jpg">
+<br/><br/><br/><br/>
+<center><img src="../static/images/logo.png" width="20%" alt="logo" align="center"/></center><br><br>
+<!-- <hr/> -->
+
+<body bgcolor="#E6E6FA"><center>
+		<form action="{{ url_for('index') }}" method="POST">
+		<table>
+			<tr align="center"><td><input style="width:300px;height:30px" type="text" name="scon"></td><td><button style="width:80px;height:30px">搜索</button></td></tr>
+		</table>
+		</form>
+	<!-- <hr/> -->
+	<small><a href='/upload'>我要上传</a></small>
+	<br><br><br>
+	<table border="2">
+		<thead>
+		<tr>
+			<th>文件名</th>
+			<th>上传时间</th>
+		</tr>
+		</thead>
+		<tbody>
+		{% for record in records %}
+			<tr>
+				<td><a href=\player/{{record['filename']}}>{{ record['filename'] }}</a></td>
+				<td>{{ record['date'] }}</td>
+			</tr>
+		{% endfor %}
+		</tbody>
+	</table>
+</body></center>
+</html>

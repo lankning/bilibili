@@ -1,0 +1,40 @@
+<!doctype html>
+<head>
+<meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0, user-scalable=yes">
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<meta name="referrer" content="no-referrer">
+<title>上传</title>
+<meta name="description" content="视频资料上传">
+<meta name="keywords" content="视频资料上传">
+<link rel="icon" sizes="any" mask="" href="http://www.printableparadise.com/letter-stencils/printable-letter-k-stencil.png">
+</head>
+
+<body>
+<center>
+<div class="warning">
+	{% for message in get_flashed_messages() %}
+		<strong>Warning!</strong> {{ message }}
+	{% endfor %}
+</div>
+<br><br><br>
+<h1>上传文件</h1>
+<br><br>
+<form action="" method=post enctype=multipart/form-data>
+  <p><input type=file name=file>
+     <input type=submit value=上传>
+</form>
+
+<h4>须知：</h4>
+<table border="0">
+<tr>
+<td align="left" valign="middle" border="0">1、仅支持单个文件上传</td>
+</tr>
+<tr>
+<td align="left" valign="middle" border="0">2、上传大小限制为1024Mb</td>
+</tr>
+<tr>
+<td align="left" valign="middle" border="0">3、基于python的flask库</td>
+</tr>
+</table>
+<center>
+<body>
