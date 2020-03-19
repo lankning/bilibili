@@ -1,0 +1,24 @@
+<!doctype html>
+<head>
+<meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0, user-scalable=yes">
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<meta name="referrer" content="no-referrer">
+<title>下载页</title>
+<meta name="description" content="下载">
+<meta name="keywords" content="下载">
+<link rel="icon" sizes="any" mask="" href="http://www.y80s.com/favicon.ico">
+</head>
+
+<body>
+<center>
+<div class="warning">
+	{% for message in get_flashed_messages() %}
+		<strong>Warning!</strong> {{ message }}
+	{% endfor %}
+</div>
+
+<br><br><br>
+<h1>正在下载文件</h1>
+
+<center>
+<body>
