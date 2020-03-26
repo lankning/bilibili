@@ -1,0 +1,37 @@
+<html>
+
+<head>
+<meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0, user-scalable=yes">
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<meta name="referrer" content="no-referrer">
+<title>Video Home</title>
+<meta name="description" content="视频资料交流、下载">
+<meta name="keywords" content="视频资料、上传下载">
+<link rel="icon" sizes="any" mask="" href="http://www.printableparadise.com/letter-stencils/printable-letter-k-stencil.png">
+<script src="html5media.min.js"></script>
+<!--html5media是一个开源的网页播放器，让支持HTML5的浏览器依然使用HTML5，不支持HTML5的浏览器使用falsh播放器-->
+</head>
+
+<center>
+<div class="warning">
+        {% for message in get_flashed_messages() %}
+			<strong>Warning!</strong> {{ message }}
+        {% endfor %}
+    </div>
+
+</center><br>
+<link rel="shortcut icon" href="http://pic15.nipic.com/20110619/6731661_105306862000_2.jpg" type="image/jpg">
+
+<center><img src="../static/images/logo.png" width="20%" alt="logo" align="center"/></center><br><br>
+<!-- <hr/> -->
+
+<body bgcolor="#E6E6FA"><center>
+	
+	<audio controls height="100" width="100">
+		<source src="{{path}}" type="audio/mpeg">
+		<source src="{{path}}" type="audio/ogg">
+		<embed height="50" width="100" src="{{path}}">
+	</audio>
+	
+</body></center>
+</html>
