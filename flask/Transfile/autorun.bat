@@ -1,3 +1,3 @@
 D:
 cd D:\Transfile
-start main.py
+start main.pyw
