@@ -18,7 +18,7 @@ from genqr import gen
 
 
 # 文件上传的地址
-UPLOAD_FOLDER = 'C:/Users/11197/Desktop/Transfile/uploads'
+UPLOAD_FOLDER = './uploads'
 app = Flask(__name__)
 
 
