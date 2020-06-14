@@ -1,4 +1,4 @@
-# 小说邮件更新/Update Internet Novel by email
+# 小说邮件更新/Update Internet Novel by Email
 ### 介绍/Introduction:
 
 网络小说的广告让我感到厌烦，因此我产生了通过爬虫爬取小说然后将最新章节通过邮件发送到我邮箱的想法。经历了半年的间断性改进，我得到了这个版本。
