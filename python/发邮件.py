@@ -7,11 +7,11 @@ def format_addr(s):
     name, addr = parseaddr(s)
     return formataddr((Header(name, 'utf-8').encode(), addr))
 
-def send_email(subject,mess,to_addr='lankning@163.com'):
+def send_email(subject,mess,to_addr='your_destination@163.com'):
 # SMTP服务器以及相关配置信息
     smtp_server = 'smtp.163.com'    #163邮箱用到的SMTP服务器
-    from_addr = 'lankning@163.com'
-    password = 'Zwk990518'      #上面代码中发送方是163邮箱，所以密码不是邮箱的登录密码，而是手动开启SMTP协议后设置或分配的授权码！，
+    from_addr = 'your_account@163.com'
+    password = 'Authorization code'      #上面代码中发送方是163邮箱，所以密码不是邮箱的登录密码，而是手动开启SMTP协议后设置或分配的授权码！，
     #但如果是Gmail则使用的密码是登录密码
 
     msg = MIMEText(mess, 'html', 'utf-8')
@@ -31,5 +31,3 @@ def send_email(subject,mess,to_addr='lankning@163.com'):
     server.sendmail(from_addr, to_addr.split(","), msg.as_string())
     server.quit()
     return None
-
-send_email('考研每日目标','一、背基础词第十单元\n二、完结高数第二章--数列的极限\n三、修改论文至少一半！')
