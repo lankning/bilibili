@@ -1,0 +1,14 @@
+<style>
+    a:link{		/*默认状态*/
+        color: black;
+    }
+    a:visited{	/*浏览过的*/
+        color: black;
+    }
+    a:hover{	/*悬浮状态*/
+        color: #4169E1;
+    }
+    a:active{	/*激活过的*/
+        color: black;
+    }
+</style>
