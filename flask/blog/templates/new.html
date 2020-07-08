@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>流岚雅舍[后台]</title>
+<style type="text/css">
+	#big{ width:70%; padding-left:15%;}
+	#center{width:100%; overflow:hidden;}
+	#left{ float:left; width:50%;}
+	#right{ float:right; width:50%;}
+	#top{ height:150px;}
+	#foot{ height:100px;}
+	.bt1 {
+		background-color: #008CBA; /* Blue */
+		border: none;
+		color: white;
+		padding: 15px 32px;
+		text-align: center;
+		text-decoration: none;
+		display: inline-block;
+		font-size: 16px;
+	}
+	input{
+		outline-style: none ;
+		border: 1px solid #ccc; 
+		border-radius: 3px;
+		padding: 12px 12px;
+		width: 300px;
+		font-size: 20px;
+	}
+	.boxes{font-size:28px; color:black;}
+</style>
+<link rel="stylesheet" type="text/css" href="./static/css/a.css"/>
+<link rel="icon" href="./static/images/ico.png">
+</head>
+
+<body background="../static/images/bg.jpg">
+<div id="big" style="text-align:center">
+	<div id="top">
+		<a href="/"><img src='../static/images/logo.png' width="50%"></a>
+	</div>
+	
+	<form action ="" method ="post">
+	<div id="center">
+	<div id='left'>
+		<font color=black size="5">标题</font>
+		<input class="input" type="text" name="title" placeholder="请输入标题"></input>
+	</div>
+	<div id='right'>
+		<font color=black size="5">类别</font>
+		<input class="input" type="text" name="category" placeholder="请输入类别"></input><br/>
+	</div>
+	<div id='left'>
+		<font color=black size="5">时间</font>
+		<input class="input" type="text" name="time" placeholder="Default"></input>
+	</div>
+	<div id='right'>
+		<font color=black size="5">封面</font>
+		<input class="input" type="text" name="cover" placeholder="请输入图片链接"></input><br/>
+	</div></div>
+		<center>
+		<textarea class="boxes" rows="30" cols="62" name='text'></textarea>
+		</center><br><br>
+		<div id="foot">
+		<button class="bt1" name="button" class="bt1" value="提交">提交</button>
+		</div>
+	</form>
+	
+</div>
+	
+</body>

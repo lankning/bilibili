@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+	<head>
+	<title>流岚雅舍</title>
+	<link rel="icon" href="./static/images/ico.png">
+	<style type="text/css">
+		#big{ width:70%; padding-left:15%;}
+		#center{width:100%; overflow:hidden;}
+		#left{ float:left; width:25%; background-color:	#E6E6FA;}
+		#right{ float:right; width:75%;}
+		#menu {float:right; width:95%;background-color: #B0C4DE} 
+		#top-left{ float:left; width:25%; height:100px;}
+		.abc {margin:0 auto;width:95%; solid;text-align:left;background-color:}
+	</style>
+	<meta content="text/html; charset=utf-8" http-equiv="content-type" />
+	<link href="/static/default.css" rel="stylesheet">
+	<link href="/static/github.css" rel="stylesheet" type="text/css" />
+	</head>
+
+	<body background="../static/images/bg.jpg">
+		<div id="big" align="center">
+			<div id="top-left">
+				<a href="/"><img src='../static/images/logo.png' height="50%"></a>
+			</div>
+			<div id="center">
+			<div id="left" style:"text-align:left">
+		<img src='../static/images/avator.png' width="100%">
+		<font color=black size="6">Lankning</font><br>
+		<img src="../static/images/note.png" width="8%"> <font color=black size="3">无常就是常</font><br>
+		<img src="../static/images/location.png" width="6%"> <font color=black size="3">武汉,中国</font><br>
+		<table border="0" align="center">
+		<br><tr>
+			<th width="40%"><font color=black size="3">文章</font></th>
+			<th width="40%"> <font color=black size="3">分类</font></th>
+		</tr>
+		<tr>
+			<td width="40%"><script>
+			var x=0;
+			{% for r in records %}
+				x = x+1
+			{% endfor %}
+			document.write(x)
+			</script></td>
+			<td width="40%"><script>
+			var x=0;
+			{% for r in category %}
+				x = x+1
+			{% endfor %}
+			document.write(x)
+			</script>			</td>
+		</tr>
+		</table><br>
+		<table border="0" align="center">
+		  <tr>
+			<td width="25%"><a href='https://github.com/lankning'><img width="100%" src='../static/images/Github.png'></a></td>
+			<td width="25%"><a href='https://www.zhihu.com/people/zhu-que-shan'><img width="100%" src='../static/images/知乎.png'></a></td>
+			<td width="25%"><a href='https://space.bilibili.com/390519714'><img width="100%" src='../static/images/Bilibili.png'></a></td>
+			<td width="25%"><a href='https://gitee.com/cytor'><img width="100%" src='../static/images/Gitee.png'></a></td>
+		  </tr>
+		</table>
+			<pre><!--category-->
+{% for cate in category %}
+<a style=" text-decoration: none;" href=\{{cate}}><font color=black size="5">{{ cate }}</font></a><br>
+{% endfor %}
+			</pre>
+		</div>
+		<div id="right"><div id ="menu"><div class="abc"> {{ content }}
+		</div></div></div></div></div>
+	</body>
+</html>

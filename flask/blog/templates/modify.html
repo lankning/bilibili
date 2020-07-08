@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>流岚雅舍[后台]</title>
+<style type="text/css">
+	#big{ width:70%; padding-left:15%;}
+	#center{width:100%; overflow:hidden;}
+	#left{ float:left; width:50%;}
+	#right{ float:right; width:50%;}
+	#top{ height:110px;}
+	#foot{ height:100px; background-color:#00FFFF;}
+	.bt1 {
+		background-color: #E6E6FA; /* Lavender */
+		border: none;
+		color: black;
+		padding: 12px 20px;
+		text-align: center;
+		text-decoration: none;
+		display: inline-block;
+		font-size: 16px;
+	}
+</style>
+<!--
+<link rel="stylesheet" type="text/css" href="./static/css/a.css"/>-->
+<link rel="icon" href="./static/images/ico.png">
+</head>
+
+<body background="../static/images/bg.jpg">
+<div id="big" style="text-align:center">
+	<div id="top">
+		<a href="/"><img src='../static/images/logo.png' width="50%"></a>
+	</div><br><br>
+	<div id="center">
+	<form action ="" method ="post">
+	<table border="1" align="center">
+	<tr><th width=400px><font color=black size="5">文章名</font></a></th>
+	<th><font color=black size="5">操作</font></a></th></tr>
+	{% for r in records %}
+	  <tr>
+		<td width=400px><a style=" text-decoration: none;" href=\read/{{r[2]}}>
+		<font color=black size="5">{{ r[0] }}</font></a></td>
+		<td><button name="delete" class="bt1" value={{r[0]}}>删除</button></td>
+	  </tr>
+	{% endfor %}
+	</table></form>
+	</div>
+</div>
+	
+</body>
