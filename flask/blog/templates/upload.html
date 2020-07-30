@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>流岚雅舍[后台]</title>
+<meta charset="utf-8" />
+<style type="text/css">
+	#big{ width:70%; padding-left:15%;}
+	#top{ height:200px;}
+	#center{width:100%; overflow:hidden;}
+	#foot{ height:100px; background-color:#00FFFF;}
+	.bt1 {
+		background-color: #008CBA; /* Blue */
+		border: none;
+		color: white;
+		padding: 12px 28px;
+		text-align: center;
+		text-decoration: none;
+		display: inline-block;
+		font-size: 16px;
+	}
+	input{
+		outline-style: none ;
+		border: 1px solid #ccc; 
+		border-radius: 3px;
+		padding: 12px 12px;
+		width: 300px;
+		font-size: 20px;
+	}
+</style>
+<link rel="stylesheet" type="text/css" href="./static/css/a.css"/>
+<link rel="icon" href="../static/images/ico.png">
+</head>
+
+<body background="../static/images/bg.jpg">
+<div id="big" style="text-align:center">
+	<div id="top">
+		<a href="/"><img src='../static/images/logo.png' width="50%"></a>
+	</div>
+	
+	<div id="top">
+		<form action="" enctype="multipart/form-data" method=post>
+		<font color=black size="5">选择文件：</font>
+		<input class="input" type="file" name="file"></input><br/><br/>
+		<button class="bt1" name="button" value="提交">提交</button>
+		</form>
+	</div>
+	
+	<table border="1" align="center">
+	<tr><th width=25%><font color=black size="5">文件名</font></a></th>
+	<th width=35%><font color=black size="5">相对地址</font></a></th>
+	<th width=20%><font color=black size="5">时间</font></a></th>
+	<th width=20%><font color=black size="5">操作</font></a></th></tr>
+	<form action ="" method ="post">
+	{% for r in records %}
+	  <tr>
+		<td width=25%><a style=" text-decoration: none;" href=\static/uploads/{{r[0]}}>
+		<font color=black size="4">{{ r[0] }}</font></a></td>
+		<td width=35%><font color=black size="4">{{ r[1] }}</font></td>
+		<td width=20%><font color=black size="3">{{ r[2] }}</font></td>
+		<td width=20%><button name="delete" class="bt1" value={{r[0]}}>删除</button></td>
+	  </tr>
+	{% endfor %}
+	</form>	</table>
+	
+	{{path}}
+</div>
+	
+</body>

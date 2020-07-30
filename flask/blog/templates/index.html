@@ -2,7 +2,8 @@
 <html>
 <head>
 <title>流岚雅舍</title>
-<link rel="icon" href="./static/images/ico.png">
+<meta charset="utf-8" />
+<link rel="icon" href="../static/images/ico.png">
 <style type="text/css">
 	#big{ width:70%; padding-left:15%;}
 	#center{width:100%; overflow:hidden;}
@@ -13,6 +14,15 @@
 	#top-right{ float:right; width:75%; height:100px;}
 	#foot{ height:100px;}
 	#gapinpassage{ float:right; width:100%; height:20px;}
+	.bt1 {
+	background-color: #008CBA; /* Blue */
+	border: none;
+	color: white;
+	padding: 15px 32px;
+	text-align: center;
+	text-decoration: none;
+	display: inline-block;
+	font-size: 16px;}
 </style>
 </head>
 
@@ -21,8 +31,12 @@
 	<div id="top-left">
 		<a href="/"><img src='../static/images/logo.png' height="50%"></a>
 	</div>
-	<div id="top-right" style="text-align:right">
-		<a style=" text-decoration: none;" href="login"><font color=black size="5">登入</font></a>
+	<div id="top-right">
+		<table border="1" align="right">
+		<tr>
+		<td width="100px"><a style=" text-decoration: none;" href="/"><font color=black size="5">首页</font></a></td>
+		<td width="100px"><a style=" text-decoration: none;" href="login"><font color=black size="5">登入</font></a></td></tr>
+		</table>
 	</div>
 	
 	<div id="center">
@@ -37,16 +51,12 @@
 			<th width="40%"> <font color=black size="3">分类</font></th>
 		</tr>
 		<tr>
+			<td width="40%">
+			{{info["passage_number"]}}
+			</td>
 			<td width="40%"><script>
 			var x=0;
-			{% for r in records %}
-				x = x+1
-			{% endfor %}
-			document.write(x)
-			</script></td>
-			<td width="40%"><script>
-			var x=0;
-			{% for r in category %}
+			{% for r in categories %}
 				x = x+1
 			{% endfor %}
 			document.write(x)
@@ -55,14 +65,14 @@
 		</table><br>
 		<table border="0" align="center">
 		  <tr>
-			<td width="25%"><a href='https://github.com/lankning'><img width="100%" src='../static/images/Github.png'></a></td>
-			<td width="25%"><a href='https://www.zhihu.com/people/zhu-que-shan'><img width="100%" src='../static/images/知乎.png'></a></td>
-			<td width="25%"><a href='https://space.bilibili.com/390519714'><img width="100%" src='../static/images/Bilibili.png'></a></td>
-			<td width="25%"><a href='https://gitee.com/cytor'><img width="100%" src='../static/images/Gitee.png'></a></td>
+			<td width="25%"><a href='https://github.com/lankning'><img width="100%" src='../static/images/github.png'></a></td>
+			<td width="25%"><a href='https://www.zhihu.com/people/zhu-que-shan'><img width="100%" src='../static/images/zhihu.png'></a></td>
+			<td width="25%"><a href='https://space.bilibili.com/390519714'><img width="100%" src='../static/images/bilibili.png'></a></td>
+			<td width="25%"><a href='https://gitee.com/cytor'><img width="100%" src='../static/images/gitee.png'></a></td>
 		  </tr>
 		</table>
 			<pre><!--category-->
-{% for cate in category %}
+{% for cate in categories %}
 <a style=" text-decoration: none;" href=\{{cate}}><font color=black size="5">{{ cate }}</font></a><br>
 {% endfor %}
 			</pre>
@@ -71,18 +81,19 @@
 {% for r in records %}
 <div id="right"><div id="menu">
 <a style=" text-decoration: none;" href=\read/{{r[2]}}>
-<img src={{r[4]}} width="100%"><br/>
-<font color=black size="5">{{ r[0] }}</font>
+<img src={{r[4]}} width="100%" height=400px><br/>
+<font color=black size="5">{{ r[0] }}</font><br/>
+<font color=black size="2">{{ r[3] }}</font>
 </a><br/></div><div id="gapinpassage"></div></div>
 {% endfor %}
-		
 	</div>
 	
-	<div id="foot" style="text-align:right">
-	<br/><br/><br/>
-
-	
-	</font>
+	<div id="foot" style="text-align:center">
+	<br/><br/>
+	<a href={{info["former_page"]}}><button class="bt1">上一页</button></a>
+	<a href={{info["next_page"]}}><button class="bt1">下一页</button></a>
+	<br/>
+	第{{info["current_page"]}}页，共{{info["total_pages"]}}页
 	</div>
 </body>
 </html>

@@ -2,6 +2,7 @@
 <html>
 <head>
 <title>流岚雅舍[后台]</title>
+<meta charset="utf-8" />
 <style type="text/css">
 	#big{ width:70%; padding-left:15%;}
 	#center{width:100%; overflow:hidden;}
@@ -22,7 +23,7 @@
 </style>
 <!--
 <link rel="stylesheet" type="text/css" href="./static/css/a.css"/>-->
-<link rel="icon" href="./static/images/ico.png">
+<link rel="icon" href="../static/images/ico.png">
 </head>
 
 <body background="../static/images/bg.jpg">
@@ -37,7 +38,7 @@
 	<th><font color=black size="5">操作</font></a></th></tr>
 	{% for r in records %}
 	  <tr>
-		<td width=400px><a style=" text-decoration: none;" href=\read/{{r[2]}}>
+		<td width=400px><a style=" text-decoration: none;" href=\admin_edit/{{r[0]}}>
 		<font color=black size="5">{{ r[0] }}</font></a></td>
 		<td><button name="delete" class="bt1" value={{r[0]}}>删除</button></td>
 	  </tr>

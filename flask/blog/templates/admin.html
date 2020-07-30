@@ -2,13 +2,15 @@
 <html>
 <head>
 <title>流岚雅舍[后台]</title>
+<meta charset="utf-8" />
 <style type="text/css">
 	#big{ width:70%; padding-left:15%;}
 	#center{width:100%; overflow:hidden;}
-	#left{ float:left; width:50%;}
-	#right{ float:right; width:50%;}
+	#left{ float:left; width:48%; padding-right:2%; text-align:right;}
+	#right{ float:right; width:48%; padding-left:2%; text-align:left;}
 	#top{ height:200px;}
 	#center{ width:900px; overflow:hidden;}
+	#gaphorizontal{float:left; width:100%; height:20px;}
 	#foot{ height:100px; background-color:#00FFFF;}
 	.bt1 {
 		background-color: #4CAF50; /* Green */
@@ -22,6 +24,28 @@
 		width:300px; height:200px;
 	}
 	.bt2 {
+		background-color: #DAA520; /* 秋麒麟 */
+		border: none;
+		color: white;
+		padding: 15px 32px;
+		text-align: center;
+		text-decoration: none;
+		display: inline-block;
+		font-size: 16px;
+		width:300px; height:200px
+	}
+	.bt3 {
+		background-color: #DA70D6; /* 兰花紫 */
+		border: none;
+		color: white;
+		padding: 15px 32px;
+		text-align: center;
+		text-decoration: none;
+		display: inline-block;
+		font-size: 16px;
+		width:300px; height:200px
+	}
+	.bt4 {
 		background-color: #008CBA; /* Blue */
 		border: none;
 		color: white;
@@ -34,7 +58,7 @@
 	}
 </style>
 <link rel="stylesheet" type="text/css" href="./static/css/a.css"/>
-<link rel="icon" href="./static/images/ico.png">
+<link rel="icon" href="../static/images/ico.png">
 </head>
 
 <body background="../static/images/bg.jpg">
@@ -49,6 +73,13 @@
 	</div>
 	<div id="right">
 		<button class="bt2" type="text" name="button" value="new"><font color=black size="6">新建文章</font></button>
+	</div>
+	<div id='gaphorizontal'></div>
+	<div id="left">
+		<button class="bt3" type="text" name="button" value="none"><font color=black size="6">未定义</font></button>
+	</div>
+	<div id="right">
+		<button class="bt4" type="text" name="button" value="upload"><font color=black size="6">上传文件</font></button>
 	</div>
 	</form>
 	</div>

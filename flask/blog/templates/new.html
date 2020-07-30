@@ -2,6 +2,7 @@
 <html>
 <head>
 <title>流岚雅舍[后台]</title>
+<meta charset="utf-8" />
 <style type="text/css">
 	#big{ width:70%; padding-left:15%;}
 	#center{width:100%; overflow:hidden;}
@@ -30,7 +31,7 @@
 	.boxes{font-size:28px; color:black;}
 </style>
 <link rel="stylesheet" type="text/css" href="./static/css/a.css"/>
-<link rel="icon" href="./static/images/ico.png">
+<link rel="icon" href="../static/images/ico.png">
 </head>
 
 <body background="../static/images/bg.jpg">
@@ -43,22 +44,23 @@
 	<div id="center">
 	<div id='left'>
 		<font color=black size="5">标题</font>
-		<input class="input" type="text" name="title" placeholder="请输入标题"></input>
+		<input class="input" type="text" name="title" value={{content[0]}}></input>
 	</div>
 	<div id='right'>
 		<font color=black size="5">类别</font>
-		<input class="input" type="text" name="category" placeholder="请输入类别"></input><br/>
+		<input class="input" type="text" name="category" value={{content[1]}}></input><br/>
 	</div>
 	<div id='left'>
 		<font color=black size="5">时间</font>
-		<input class="input" type="text" name="time" placeholder="Default"></input>
+		<input class="input" type="text" name="time" value={{content[2]}}></input>
 	</div>
 	<div id='right'>
 		<font color=black size="5">封面</font>
-		<input class="input" type="text" name="cover" placeholder="请输入图片链接"></input><br/>
+		<input class="input" type="text" name="cover" value={{content[3]}}></input><br/>
 	</div></div>
 		<center>
-		<textarea class="boxes" rows="30" cols="62" name='text'></textarea>
+		<textarea class="boxes" rows="30" cols="62" name='text'>{{content[4]}}</textarea>
+		<!--textarea这个标签无法写入value，可以在两个中间写-->
 		</center><br><br>
 		<div id="foot">
 		<button class="bt1" name="button" class="bt1" value="提交">提交</button>
