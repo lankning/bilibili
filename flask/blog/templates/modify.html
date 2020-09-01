@@ -20,6 +20,14 @@
 		display: inline-block;
 		font-size: 16px;
 	}
+	input{
+		outline-style: none ;
+		border: 1px solid #ccc; 
+		border-radius: 3px;
+		padding: 12px 12px;
+		width: 300px;
+		font-size: 20px;
+	}
 </style>
 <!--
 <link rel="stylesheet" type="text/css" href="./static/css/a.css"/>-->
@@ -30,20 +38,27 @@
 <div id="big" style="text-align:center">
 	<div id="top">
 		<a href="/"><img src='../static/images/logo.png' width="50%"></a>
-	</div><br><br>
+	</div><br><br><br>
 	<div id="center">
-	<form action ="" method ="post">
-	<table border="1" align="center">
-	<tr><th width=400px><font color=black size="5">文章名</font></a></th>
-	<th><font color=black size="5">操作</font></a></th></tr>
-	{% for r in records %}
-	  <tr>
-		<td width=400px><a style=" text-decoration: none;" href=\admin_edit/{{r[0]}}>
-		<font color=black size="5">{{ r[0] }}</font></a></td>
-		<td><button name="delete" class="bt1" value={{r[0]}}>删除</button></td>
-	  </tr>
-	{% endfor %}
-	</table></form>
+		<form action="" enctype="multipart/form-data" method=post>
+			<font color=black size="5">选择文章：</font>
+			<input class="input" type="file" name="file"></input>
+			<button class="bt1" name="upfile" value="submit">提交</button>
+		</form><br><br>
+		
+		<form action ="" method ="post">
+			<table border="1" align="center">
+				<tr><th width=400px><font color=black size="5">文章名</font></a></th>
+				<th><font color=black size="5">操作</font></a></th></tr>
+				{% for r in records %}
+				<tr>
+					<td width=400px><a style=" text-decoration: none;" href=\admin_edit/{{r[1]}}+{{r[0]}}>
+					<font color=black size="5">{{ r[0] }}</font></a></td>
+					<td><button name="delete" class="bt1" value={{r[0]}}>删除</button></td>
+				</tr>
+				{% endfor %}
+			</table>
+		</form>
 	</div>
 </div>
 	

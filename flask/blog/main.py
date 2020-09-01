@@ -5,6 +5,7 @@
 
 
 from flask import Flask, request, render_template, redirect,url_for,make_response, send_from_directory, session, Markup
+from gevent import pywsgi
 import os, time, markdown, sqlite3, math
 
 
@@ -12,10 +13,11 @@ import os, time, markdown, sqlite3, math
 
 
 app = Flask(__name__)
-app.config['MAX_CONTENT_LENGTH'] = 1.5 * 1024 * 1024 * 1024 # max_size: 1.5G
+app.config['MAX_CONTENT_LENGTH'] = 1 * 1024 * 1024 * 1024 # max_size: 1Gb
 app.config['SECRET_KEY'] = os.urandom(24)
 app.config['FASSAGE_PATH'] = 'static/passages/'
 app.config['UPLOAD'] = 'static/uploads/'
+app.config['TEMP'] = 'static/temp/'
 app.config['ACCOUNT'] = 'lankning'
 app.config['PASSWORD'] = '123456'
 
@@ -31,13 +33,43 @@ def secure_filename(filename):
 # In[ ]:
 
 
-#md转html的方法 
-def md2html(filename):
-    exts = ['markdown.extensions.extra', 'markdown.extensions.codehilite','markdown.extensions.tables','markdown.extensions.toc']
-    mdcontent = ""
-    with open(filename,'r',encoding='utf-8') as f:
+# 从md文件中读取intro和content信息
+def get_content(path):
+    with open(path,'r',encoding='utf-8') as f:
         mdcontent = f.read()
-        pass
+    info = mdcontent.split('---')[1].split('\n') # 第一个元素是空的
+    info = [i for i in info if(len(str(i))!=0)] # 去除空元素
+    for element in info:
+        if 'title' in element:
+            title = element.split(': ')[1]
+        elif 'categories' in element:
+            categories = element.split(': ')[1]
+        elif 'date' in element:
+            date = element.split(': ')[1]
+            date = date.replace(' ','~')
+        elif 'thumbnail' in element:
+            thumbnail = element.split(': ')[1]
+
+    text = mdcontent.split('---')[2]# 前面两个空格
+    text = text.replace('\n\n','\n')
+#     intro = text.split('<!--more-->')[0]
+#     text = text.split('<!--more-->')[1]
+#     intro = intro.replace('\n','')
+#     text = text.replace('\n\n','\n')
+    content = [title,categories,date,thumbnail,text]
+    return content
+
+
+# In[ ]:
+
+
+#md转html的方法 
+def md2html(path):
+    path = path.replace('+','/')
+    exts = ['markdown.extensions.extra', 'markdown.extensions.codehilite','markdown.extensions.tables','markdown.extensions.toc']
+    content = get_content(path)
+    mdcontent = '#'+content[0]+'\n'+content[4]+'\n\n提交时间：'+content[2].replace('~',' ')
+    
     html = markdown.markdown(mdcontent,extensions=exts)
     content = Markup(html)
     return content
@@ -46,9 +78,21 @@ def md2html(filename):
 # In[ ]:
 
 
+# 已知content，组装成规范的md文件格式
+def pack_md(content):# content = [title,categories,date,thumbnail,text]
+    info = '---\n' + 'title: ' + content[0] + '\ncategories: ' + content[1]+ '\ndate: ' + content[2] + '\nthumbnail: ' + content[3] + '\n---\n'
+    # 为了图片的比例，将![]()型的统一改为<img src="xxx" />
+    # 待填充
+    passage = info + content[4].replace('\n\n','\n')
+    return passage
+
+
+# In[ ]:
+
+
 database=sqlite3.connect('database')
 cursor=database.cursor()
-cursor.execute('create table if not exists ttou(title text,category text,url text,time text, cover text)')
+cursor.execute('create table if not exists ttou(title text,categories text,url text,date text, thumbnail text)')
 cursor.execute('create table if not exists upload(filename text,path text,time text)')
 database.commit()
 
@@ -166,77 +210,95 @@ def modify():
         cursor=database.cursor()
         cursor.execute('select * from ttou')
         records=cursor.fetchall()
-        title = request.form.get('delete')
-        for i in records:
-            if i[0]==title:
-                category = i[1]
-        os.remove(os.path.join(app.config['FASSAGE_PATH'],category,title+'.md'))
-        # print(title,category,'deleted')
-        cursor.execute('DELETE FROM ttou WHERE title=\"%s\"' % title)
-        database.commit()
-        return redirect(url_for("modify"))
+        
+        if request.files.get('file')==None and request.form.get('delete')!=None:# 不是上传文章 -> 文章删除功能
+            title = request.form.get('delete')
+            for i in records:
+                if i[0]==title:
+                    categories = i[1]
+            os.remove(os.path.join(app.config['FASSAGE_PATH'],categories,title+'.md'))
+            # print(title,categories,'deleted')
+            cursor.execute('DELETE FROM ttou WHERE title=\"%s\"' % title)
+            database.commit()
+            return redirect(url_for("modify"))
+        elif request.form.get('button')!=None:# 有文章提交了
+            title = secure_filename(request.form.get('title'))
+            categories = request.form.get('categories')
+            text = request.form.get('text')
+            if request.form.get('date')=='':
+                localtime = time.strftime("%Y-%m-%d~%H:%M:%S", time.localtime())
+            else:
+                localtime =  request.form.get('date')
+            thumbnail =  request.form.get('thumbnail')
+    #       print(context)
+            catepath = os.path.join(app.config['FASSAGE_PATH'],categories)
+            if not os.path.exists(catepath):#判断存放文章的文件夹是否存在
+                os.makedirs(catepath) # 若分类文件夹不存在就创建
+            content = [title,categories,localtime,thumbnail,text]
+            passage = pack_md(content)
+            with open('%s.md'% (os.path.join(catepath,title)), "w+",encoding='utf-8') as m:
+                m.write(passage)
+            target = categories+'+'+title
+            database=sqlite3.connect('database')
+            cursor=database.cursor()
+            cursor.execute('insert into ttou (title,categories,url,date,thumbnail) VALUES (\"%s\",\"%s\",\"%s\",\"%s\",\"%s\")' 
+                           %(title,categories,target,localtime,thumbnail))
+            database.commit()
+            return redirect(url_for("read",target=target))
+        else: # 上传文章功能 -> 跳转到预览
+            file = request.files.get('file')
+            filename = secure_filename(file.filename)
+            temp_path = os.path.join(app.config['TEMP'],filename)
+            file.save(temp_path)
+            content = get_content(temp_path)
+            # 1.title; 2.categories; 3.date; 4.thumbnail; 5.text area
+            os.remove(temp_path)
+            return render_template('new.html',content=content)
 
 
 # In[ ]:
 
 
-@app.route('/admin_edit/<title>', methods=['GET','POST'])
-def edit(title):
+@app.route('/admin_edit/<target>', methods=['GET','POST'])
+def edit(target):
     if request.method == 'GET':
         if (session.get('username')==app.config['ACCOUNT']) and (session.get('password')==app.config['PASSWORD']):
-            database=sqlite3.connect('database')
-            cursor=database.cursor()
-            cursor.execute('select * from ttou')
-            records = cursor.fetchall()
-            content = []
-            for i in records:
-                if i[0]==title:
-                    content.append(title)
-                    content.append(i[1]) # category
-                    content.append(i[3]) # localtime
-                    content.append(i[4]) # cover
-                    break
-            path = os.path.join(app.config['FASSAGE_PATH'],content[1],title+'.md')
-#             print(path)
-            with open(path,'r',encoding='utf-8') as f:
-                mdcontent = f.read()
-                content.append(mdcontent) # text area
+            content = get_content(os.path.join(app.config['FASSAGE_PATH'],target.replace('+','/')+'.md'))
             return render_template('new.html',content=content)
         else:
             return redirect(url_for("login"))
     elif request.method == 'POST':
         # 1. delete original file
+        os.remove(os.path.join(app.config['FASSAGE_PATH'],target.replace('+','/')+'.md'))
         database=sqlite3.connect('database')
         cursor=database.cursor()
         cursor.execute('select * from ttou')
         records=cursor.fetchall()
-        for i in records:
-            if i[0]==title:
-                category = i[1]
-        os.remove(os.path.join(app.config['FASSAGE_PATH'],category,title+'.md'))
-        # print(title,category,'deleted')
-        cursor.execute('DELETE FROM ttou WHERE title=\"%s\"' % title)
+        cursor.execute('DELETE FROM ttou WHERE title=\"%s\"' % target.split('+')[1])
         database.commit()
+        # print(title,categories,'deleted')
         
         # 2. save figured file
+        # print(context)
         title = secure_filename(request.form.get('title'))
-        category = request.form.get('category')
+        categories = request.form.get('categories')
         text = request.form.get('text')
-        if request.form.get('time')=='':
-            localtime = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
+        if request.form.get('date')=='':
+            localtime = time.strftime("%Y-%m-%d~%H:%M:%S", time.localtime())
         else:
-            localtime =  request.form.get('time')
-        cover =  request.form.get('cover')
-        context = '# '+title+'\n'+text+'\n\n'+localtime
-#         print(context)
-        catepath = os.path.join(app.config['FASSAGE_PATH'],category)
-        if not os.path.exists(catepath):#判断存放图片的文件夹是否存在
-            os.makedirs(catepath) # 若图片文件夹不存在就创建
+            localtime =  request.form.get('date')
+        thumbnail =  request.form.get('thumbnail')
+#       print(context)
+        catepath = os.path.join(app.config['FASSAGE_PATH'],categories)
+        if not os.path.exists(catepath):#判断存放文章的文件夹是否存在
+            os.makedirs(catepath) # 若分类文件夹不存在就创建
+        content = [title,categories,localtime,thumbnail,text]
+        passage = pack_md(content)
         with open('%s.md'% (os.path.join(catepath,title)), "w+",encoding='utf-8') as m:
-            m.write(context)
-        target = category+'+'+title
-        cursor.execute('insert into ttou (title,category,url,time,cover) VALUES (\"%s\",\"%s\",\"%s\",\"%s\",\"%s\")' 
-                       %(title,category,target,localtime,cover))
+            m.write(passage)
+        target = categories+'+'+title
+        cursor.execute('insert into ttou (title,categories,url,date,thumbnail) VALUES (\"%s\",\"%s\",\"%s\",\"%s\",\"%s\")' 
+                       %(title,categories,target,localtime,thumbnail))
         database.commit()
         return redirect(url_for("modify"))
 
@@ -254,25 +316,26 @@ def new():
             return redirect(url_for("login"))
     elif request.method == 'POST':
         title = secure_filename(request.form.get('title'))
-        category = request.form.get('category')
+        categories = request.form.get('categories')
         text = request.form.get('text')
-        if request.form.get('time')=='':
+        if request.form.get('date')=='':
             localtime = time.strftime("%Y-%m-%d~%H:%M:%S", time.localtime())
         else:
-            localtime =  request.form.get('time')
-        cover =  request.form.get('cover')
-        context = '# '+title+'\n'+text+'\n\n'+localtime
-#         print(context)
-        catepath = os.path.join(app.config['FASSAGE_PATH'],category)
-        if not os.path.exists(catepath):#判断存放图片的文件夹是否存在
-            os.makedirs(catepath) # 若图片文件夹不存在就创建
+            localtime =  request.form.get('date')
+        thumbnail =  request.form.get('thumbnail')
+#       print(context)
+        catepath = os.path.join(app.config['FASSAGE_PATH'],categories)
+        if not os.path.exists(catepath):#判断存放文章的文件夹是否存在
+            os.makedirs(catepath) # 若分类文件夹不存在就创建
+        content = [title,categories,localtime,thumbnail,text]
+        passage = pack_md(content)
         with open('%s.md'% (os.path.join(catepath,title)), "w+",encoding='utf-8') as m:
-            m.write(context)
-        target = category+'+'+title
+            m.write(passage)
+        target = categories+'+'+title
         database=sqlite3.connect('database')
         cursor=database.cursor()
-        cursor.execute('insert into ttou (title,category,url,time,cover) VALUES (\"%s\",\"%s\",\"%s\",\"%s\",\"%s\")' 
-                       %(title,category,target,localtime,cover))
+        cursor.execute('insert into ttou (title,categories,url,date,thumbnail) VALUES (\"%s\",\"%s\",\"%s\",\"%s\",\"%s\")' 
+                       %(title,categories,target,localtime,thumbnail))
         database.commit()
         return redirect(url_for("read",target=target))
 
@@ -282,7 +345,7 @@ def new():
 
 @app.route('/read/<target>', methods=['GET'])
 def read(target):
-#     print(target)
+    html = md2html('%s.md'% (os.path.join(app.config['FASSAGE_PATH'],target)))
     database=sqlite3.connect('database')
     cursor=database.cursor()
     cursor.execute('select * from ttou')
@@ -291,8 +354,6 @@ def read(target):
     for i in records:
         if i[1] not in categories:
             categories.append(i[1])
-    target = target.replace('+','/')
-    html = md2html('%s.md'% (os.path.join(app.config['FASSAGE_PATH'],target)))
     return render_template('read.html',content = html, category = categories, records=records)
 
 
@@ -314,12 +375,12 @@ def upload():
         database=sqlite3.connect('database')
         cursor=database.cursor()
         filename = request.form.get('delete')
-        if filename!=None:
+        if filename!=None: # 删除已经上传的文件
             path = app.config['UPLOAD'] + filename
             os.remove(path)
             cursor.execute('DELETE FROM upload WHERE filename=\"%s\"' % filename)
             database.commit()
-        else:
+        else: # 上传文件
             file = request.files.get('file')
             filename = secure_filename(file.filename)
             file.save(os.path.join(app.config['UPLOAD'],filename))
@@ -336,5 +397,6 @@ def upload():
 
 if __name__ == '__main__':
     port=5000
-    app.run('0.0.0.0',port)
+    server = pywsgi.WSGIServer(('0.0.0.0', port), app)
+    server.serve_forever()
 
