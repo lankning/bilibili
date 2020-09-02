@@ -49,9 +49,13 @@ def get_content(path):
             date = date.replace(' ','~')
         elif 'thumbnail' in element:
             thumbnail = element.split(': ')[1]
-
-    text = mdcontent.split('---')[2]# 前面两个空格
-    text = text.replace('\n\n','\n')
+    
+    text = ''
+    for i in mdcontent.split('---')[2:]:
+        text = text+i
+    text = text.replace('\n\n\n\n\n','\n\n')
+    text = text.replace('\n\n\n\n','\n\n')
+    text = text.replace('\n\n\n','\n\n')
 #     intro = text.split('<!--more-->')[0]
 #     text = text.split('<!--more-->')[1]
 #     intro = intro.replace('\n','')
@@ -78,11 +82,24 @@ def md2html(path):
 # In[ ]:
 
 
+# 将md文件中的![]()代码改为<!img src=>格式
+def regu_img(text):
+    text = text.split('![')
+    for i in range(len(text)-1):
+        img_info = text[i+1].split(')')[0]
+        text_info = ')'.join(text[i+1].split(')')[1:])
+        # print(text[i+1])
+        alt = img_info.split('](')[0]
+        url = img_info.split('](')[1]
+        img_html = '<br><img width=100%% src=\"%s\" alt=\"%s\" />'%(url,alt)
+        text[i+1] = img_html+text_info
+    return "".join(text)
+
 # 已知content，组装成规范的md文件格式
 def pack_md(content):# content = [title,categories,date,thumbnail,text]
     info = '---\n' + 'title: ' + content[0] + '\ncategories: ' + content[1]+ '\ndate: ' + content[2] + '\nthumbnail: ' + content[3] + '\n---\n'
     # 为了图片的比例，将![]()型的统一改为<img src="xxx" />
-    # 待填充
+    content[4] = regu_img(content[4])
     passage = info + content[4].replace('\n\n','\n')
     return passage
 
@@ -345,16 +362,19 @@ def new():
 
 @app.route('/read/<target>', methods=['GET'])
 def read(target):
-    html = md2html('%s.md'% (os.path.join(app.config['FASSAGE_PATH'],target)))
-    database=sqlite3.connect('database')
-    cursor=database.cursor()
-    cursor.execute('select * from ttou')
-    records = cursor.fetchall()
-    categories = []
-    for i in records:
-        if i[1] not in categories:
-            categories.append(i[1])
-    return render_template('read.html',content = html, category = categories, records=records)
+    if target=='login':
+        return redirect(url_for("login"))
+    else:
+        html = md2html('%s.md'% (os.path.join(app.config['FASSAGE_PATH'],target)))
+        database=sqlite3.connect('database')
+        cursor=database.cursor()
+        cursor.execute('select * from ttou')
+        records = cursor.fetchall()
+        categories = []
+        for i in records:
+            if i[1] not in categories:
+                categories.append(i[1])
+        return render_template('read.html',content = html, category = categories, records=records)
 
 
 # In[ ]:
